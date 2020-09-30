@@ -40,16 +40,6 @@ def without_stop_words(text, vocabulary):
     frequency = FreqDist(words_free)
     return frequency
 
-def vocabulary_relation(text_frequency, vocabulary):
-    table = list()
-    for wd in vocabulary:
-        if wd in text_frequency:
-            table.append(text_frequency[wd])
-        else:
-            table.append(0)
-
-    return table
-
 def get_ngrams(text, n_words, vocabulary_grams):
     tokenizer = RegexpTokenizer(r'\w+')
     result = tokenizer.tokenize(text.lower())
@@ -66,28 +56,52 @@ def get_ngrams(text, n_words, vocabulary_grams):
     frequency = FreqDist(list_to_frequency)
     return frequency
 
-def vocabulary_in_n_grams(vocabulary, n_grams):    
-    vocab_linked = ' '.join(vocabulary)
-    n_grams = ngrams(nltk.word_tokenize(vocab_linked), n_grams)
-    return [ ' '.join(grams) for grams in n_grams]
-
 def main():
 
     text1 = "Falar é fácil. Mostre-me o código."
     text2 = "É fácil escrever código. Difícil é escrever código que funcione."
-
+    
+    n_grams = 1
     vocabulary = list()
+    f3 = get_ngrams(text1, n_grams, vocabulary)
+    f4 = get_ngrams(text2, n_grams, vocabulary)
+    l3 = frequency_by_vocab(text1, vocabulary, n_grams)
+    l4 = frequency_by_vocab(text2, vocabulary, n_grams)
+    print()
+    print("1-gram")
+    print("Texto 1", l3)
+    print("Texto 2", l4)
+
+
     vocabulary_grams = list()
     n_grams = 2
     
     f1 = get_ngrams(text1, n_grams, vocabulary_grams)
     f2 = get_ngrams(text2, n_grams, vocabulary_grams)
+    l1 = frequency_by_vocab(text2, vocabulary_grams, n_grams)
+    l2 = frequency_by_vocab(text2, vocabulary_grams, n_grams)
+    print()
+    print("2-gram")
+    print(f1.tabulate)
+    print(f2.tabulate)
+    print("Texto1: ",l1)
+    print("Texto2: ",l2)
     
+    
+    vocabulary_grams = list()
+    n_grams = 3
+    
+    f1 = get_ngrams(text1, n_grams, vocabulary_grams)
+    f2 = get_ngrams(text2, n_grams, vocabulary_grams)
+    l1 = frequency_by_vocab(text2, vocabulary_grams, n_grams)
+    l2 = frequency_by_vocab(text2, vocabulary_grams, n_grams)
+    print()
+    print("3-gram")
+    print(f1.tabulate)
+    print(f2.tabulate)
+    print("Texto1: ",l1)
+    print("Texto2: ",l2)
 
-    l = frequency_by_vocab(text2, vocabulary_grams, n_grams)
-    print(l)
-    
-        
 
 if __name__ == "__main__":
     main()
